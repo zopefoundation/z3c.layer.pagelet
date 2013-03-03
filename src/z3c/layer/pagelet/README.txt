@@ -49,21 +49,23 @@ in the minimal package and it's testing views defined in tests.
 
 Login as manager first:
 
-  >>> from zope.app.wsgi.testlayer import Browser
-  >>> manager = Browser()
+  >>> from webtest.app import TestApp
+  >>> manager = TestApp(
+  ...     make_wsgi_app(), extra_environ={
+  ...         'wsgi.handleErrors': False,
+  ...         'HTTP_AUTHORIZATION': 'Basic mgr:mgrpw'})
 
 Check if we can access the ``page.html`` view which is registred in the
 ``ftesting.zcml`` file with our skin:
 
   >>> skinURL = 'http://localhost/++skin++PageletTestSkin'
-  >>> manager.addHeader('Authorization', 'Basic mgr:mgrpw')
-  >>> manager.open(skinURL + '/page.html')
-  >>> manager.url
+  >>> res = manager.get(skinURL + '/page.html')
+  >>> res.request.url
   'http://localhost/++skin++PageletTestSkin/page.html'
 
-  >>> print manager.contents
+  >>> print(res.html)
   <!DOCTYPE...
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <html ...>
   <head>
   <title>PageletTestLayout</title>
   </head>
@@ -80,29 +82,30 @@ Not Found
 Now check the not found page which is a exception view on the exception
 ``zope.publisher.interfaces.INotFound``:
 
-  >>> manager.open(skinURL + '/foobar.html')
-  Traceback (most recent call last):
-  ...
-  httperror_seek_wrapper: HTTP Error 404: Not Found
+  >>> err_manager = TestApp(
+  ...     make_wsgi_app(), extra_environ={
+  ...         'HTTP_AUTHORIZATION': 'Basic mgr:mgrpw'})
 
-  >>> print manager.contents
+  >>> res = err_manager.get(skinURL + '/foobar.html', status=404)
+
+  >>> print(res.html)
   <!DOCTYPE...
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
   <title>PageletTestLayout</title>
   </head>
   <body>
     <div>
-    <br />
-    <br />
+    <br/>
+    <br/>
     <h3>
       The page you are trying to access is not available
     </h3>
-    <br />
+    <br/>
     <b>
       Please try the following:
     </b>
-    <br />
+    <br/>
     <ol>
       <li>
         Make sure that the Web site address is spelled correctly.
@@ -125,10 +128,15 @@ User error
 And check the user error page which is a view registred for
 ``zope.exceptions.interfaces.IUserError`` exceptions:
 
-  >>> manager.open(skinURL + '/@@usererror.html')
-  >>> print manager.contents
+  >>> manager.get(skinURL + '/@@usererror.html')
+  Traceback (most recent call last):
+  ...
+  UserError: simply user error
+
+  >>> res = err_manager.get(skinURL + '/@@usererror.html')
+  >>> print(res.html)
   <!DOCTYPE ...
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
   <title>PageletTestLayout</title>
   </head>
@@ -148,21 +156,24 @@ And check error view registred for
 ``zope.interface.common.interfaces.IException``, it sets the HTTP status
 code to 500 if called during tests or if development mode is switched on:
 
-  >>> manager.open(skinURL + '/@@systemerror.html')
+  >>> res = manager.get(skinURL + '/@@systemerror.html')
   Traceback (most recent call last):
-  HTTPError: HTTP Error 500: Internal Server Error
-  >>> print manager.contents
+  ...
+  Exception: simply system error
+
+  >>> res = err_manager.get(skinURL + '/@@systemerror.html', status=500)
+  >>> print(res.html)
   <!DOCTYPE...
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
   <title>PageletTestLayout</title>
   </head>
   <body>
     <div>
-    <br />
-    <br />
+    <br/>
+    <br/>
     <h3>A system error occurred</h3>
-    <br />
+    <br/>
     <b>Please contact the administrator.</b>
     <a href="javascript:history.back(1);">
       Go back and try another URL.
@@ -182,23 +193,21 @@ unauthenticatedPrincipal in ZCML (see tests/ftesting.zcml) ``401
 Unauthorized`` is returned instead of ``403 Forbidden`` which would
 show up otherwise:
 
-  >>> unauthorized = Browser()
-  >>> unauthorized.open(skinURL + '/@@forbidden.html')
-  Traceback (most recent call last):
-  HTTPError: HTTP Error 401: Unauthorized
+  >>> unauthorized = TestApp(make_wsgi_app())
+  >>> res = unauthorized.get(skinURL + '/@@forbidden.html', status=401)
 
-  >>> print unauthorized.contents
+  >>> print(res.html)
   <!DOCTYPE ...
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
   <title>PageletTestLayout</title>
   </head>
   <body>
     <div>
-    <br />
-    <br />
+    <br/>
+    <br/>
     <h3>Unauthorized</h3>
-    <br />
+    <br/>
     <b>You are not authorized.</b>
   </div>
   </body>
@@ -212,25 +221,24 @@ permissions he gets a ``403 Forbidden``, the displayed page contents are the
 same like ``401 Unauthorized``. When an authentication utility is registered
 it might display a log-in form:
 
-  >>> authorized = Browser()
-  >>> authorized.addHeader('Authorization', 'Basic tester:tester')
-  >>> authorized.open(skinURL + '/@@forbidden.html')
-  Traceback (most recent call last):
-  HTTPError: HTTP Error 403: Forbidden
+  >>> authorized = TestApp(
+  ...     make_wsgi_app(), extra_environ={
+  ...         'HTTP_AUTHORIZATION': 'Basic mgr:mgrpw'})
+  >>> res = authorized.get(skinURL + '/@@forbidden.html', status=403)
 
-  >>> print authorized.contents
-    <!DOCTYPE ...
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-    <title>PageletTestLayout</title>
-    </head>
-    <body>
-      <div>
-      <br />
-      <br />
-      <h3>Unauthorized</h3>
-      <br />
-      <b>You are not authorized.</b>
-    </div>
-    </body>
-    </html>
+  >>> print(res.html)
+  <!DOCTYPE ...
+  <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <title>PageletTestLayout</title>
+  </head>
+  <body>
+    <div>
+    <br/>
+    <br/>
+    <h3>Unauthorized</h3>
+    <br/>
+    <b>You are not authorized.</b>
+  </div>
+  </body>
+  </html>

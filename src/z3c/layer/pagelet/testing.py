@@ -11,13 +11,9 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+"""Testing Support
 """
-$Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
-"""
-
 import z3c.layer.pagelet.tests
 import zope.app.wsgi.testlayer
-import zope.testing.renormalizing
-
 
 TestLayer = zope.app.wsgi.testlayer.BrowserLayer(z3c.layer.pagelet.tests)

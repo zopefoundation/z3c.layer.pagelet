@@ -12,17 +12,46 @@
 #
 ##############################################################################
 """Setup"""
-
 import os
 from setuptools import setup, find_packages
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
+def alltests():
+    import os
+    import sys
+    import unittest
+    # use the zope.testrunner machinery to find all the
+    # test suites we've put under ourselves
+    import zope.testrunner.find
+    import zope.testrunner.options
+    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
+    args = sys.argv[:]
+    defaults = ["--test-path", here]
+    options = zope.testrunner.options.get_options(args, defaults)
+    suites = list(zope.testrunner.find.find_suites(options))
+    # Filter out all tests with layers.
+    import zope.testrunner.eggsupport
+    suites = [zope.testrunner.eggsupport.skipLayers(suite)
+              for suite in suites]
+    return unittest.TestSuite(suites)
+
+TESTS_REQUIRE = [
+    'WebTest',
+    'zope.app.wsgi >= 3.8',
+    'zope.exceptions',
+    'zope.principalregistry',
+    'zope.publisher',
+    'zope.security',
+    'zope.securitypolicy',
+    'zope.testing',
+    'zope.testrunner',
+]
 
 setup(
     name='z3c.layer.pagelet',
-    version='1.10.2dev',
+    version='2.0.0a1.dev',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     description = "Pagelet layer setup for Zope 3",
@@ -42,6 +71,12 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
@@ -53,16 +88,7 @@ setup(
     package_dir = {'':'src'},
     namespace_packages = ['z3c', 'z3c.layer'],
     extras_require = dict(
-        test = [
-            'zope.app.wsgi >= 3.8',
-            'zope.exceptions',
-            'zope.principalregistry',
-            'zope.publisher',
-            'zope.security',
-            'zope.securitypolicy',
-            'zope.testbrowser',
-            'zope.testing',
-            ],
+        test = TESTS_REQUIRE,
         ),
     install_requires = [
         'setuptools',
@@ -76,6 +102,8 @@ setup(
         'zope.login',
         'zope.publisher>=3.12',
         ],
+    tests_require=TESTS_REQUIRE,
+    test_suite='__main__.alltests',
     zip_safe = False,
 )
 

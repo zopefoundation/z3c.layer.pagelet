@@ -11,8 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
+"""Test Fixures
 """
 
 from zope.publisher.browser import BrowserPage

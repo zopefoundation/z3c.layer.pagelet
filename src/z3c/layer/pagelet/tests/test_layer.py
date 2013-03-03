@@ -11,33 +11,35 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+"""Test Pagelet Layer
 """
-$Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
-"""
-
 import doctest
 import re
 import unittest
 import z3c.layer.pagelet.testing
 import zope.testing.renormalizing
 
-
 checker = zope.testing.renormalizing.RENormalizing([
-    (re.compile(r'httperror_seek_wrapper:', re.M), 'HTTPError:'),
+    # Python 3 renamed type to class.
+    (re.compile('<type'), '<class'),
     ])
 
-
 def create_suite(*args, **kw):
-    kw['optionflags'] = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+    kw['checker'] = checker
+    kw['optionflags'] = doctest.NORMALIZE_WHITESPACE|\
+                        doctest.ELLIPSIS|\
+                        doctest.IGNORE_EXCEPTION_DETAIL
     kw['globs'] = dict(
-        getRootFolder=z3c.layer.pagelet.testing.TestLayer.getRootFolder)
+        getRootFolder=z3c.layer.pagelet.testing.TestLayer.getRootFolder,
+        make_wsgi_app=z3c.layer.pagelet.testing.TestLayer.make_wsgi_app)
     suite = doctest.DocFileSuite(*args, **kw)
     suite.layer = z3c.layer.pagelet.testing.TestLayer
     return suite
 
 
 def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(create_suite('../README.txt', checker=checker))
-    suite.addTest(create_suite('bugfixes.txt'))
+    suite = unittest.TestSuite((
+            create_suite('../README.txt'),
+            create_suite('bugfixes.txt'),
+            ))
     return suite

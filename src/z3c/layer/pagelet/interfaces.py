@@ -11,10 +11,8 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+"""Pagelet Layer Interfaces
 """
-$Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
-"""
-
 import zope.interface
 import zope.browser.interfaces
 
