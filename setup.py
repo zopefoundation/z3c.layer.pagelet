@@ -15,8 +15,10 @@
 import os
 from setuptools import setup, find_packages
 
+
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
 
 def alltests():
     import os
@@ -54,7 +56,7 @@ setup(
     version='2.1.dev0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
-    description = "Pagelet layer setup for Zope 3",
+    description="Pagelet layer setup for Zope 3",
     long_description=(
         read('README.txt')
         + '\n\n' +
@@ -63,9 +65,9 @@ setup(
         read('src', 'z3c', 'layer', 'pagelet', 'README.txt')
         + '\n\n' +
         read('CHANGES.txt')
-        ),
-    keywords = "z3c pagelet layer zope zope3",
-    classifiers = [
+    ),
+    keywords="z3c pagelet layer zope zope3",
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -85,14 +87,14 @@ setup(
         'Framework :: Zope :: 3'],
     url='http://pypi.python.org/pypi/z3c.layer.pagelet',
     license='ZPL 2.1',
-    packages = find_packages('src'),
-    include_package_data = True,
-    package_dir = {'':'src'},
-    namespace_packages = ['z3c', 'z3c.layer'],
-    extras_require = dict(
-        test = TESTS_REQUIRE,
-        ),
-    install_requires = [
+    packages=find_packages('src'),
+    include_package_data=True,
+    package_dir={'': 'src'},
+    namespace_packages=['z3c', 'z3c.layer'],
+    extras_require=dict(
+        test=TESTS_REQUIRE,
+    ),
+    install_requires=[
         'setuptools',
         'z3c.pagelet',
         'z3c.template',
@@ -103,9 +105,8 @@ setup(
         'zope.interface',
         'zope.login',
         'zope.publisher>=3.12',
-        ],
+    ],
     tests_require=TESTS_REQUIRE,
     test_suite='__main__.alltests',
-    zip_safe = False,
+    zip_safe=False,
 )
-
