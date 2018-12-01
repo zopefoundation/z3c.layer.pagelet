@@ -20,6 +20,7 @@ import zope.authentication.interfaces
 import zope.component
 import zope.interface
 
+
 def inDevMode():
     """Are we are running in debug mode? Can error messages be more telling?"""
     try:
@@ -42,7 +43,6 @@ class SystemErrorPagelet(z3c.pagelet.browser.BrowserPagelet):
     def update(self):
         if inDevMode():
             self.request.response.setStatus(500)
-
 
     def isSystemError(self):
         return True

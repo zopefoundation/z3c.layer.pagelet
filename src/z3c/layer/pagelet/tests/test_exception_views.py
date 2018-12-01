@@ -54,4 +54,3 @@ class SystemErrorTests(unittest.TestCase):
         appsetup.config(self.zcml_file, ('devmode',))
         view = self.callVUT()
         self.assertEqual(500, view.request.response.getStatus())
-
