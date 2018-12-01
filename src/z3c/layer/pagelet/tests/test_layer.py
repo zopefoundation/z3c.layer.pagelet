@@ -39,7 +39,7 @@ def create_suite(*args, **kw):
 
 def test_suite():
     suite = unittest.TestSuite((
-            create_suite('../README.txt'),
-            create_suite('bugfixes.txt'),
-            ))
+        create_suite('../README.rst'),
+        create_suite('bugfixes.rst'),
+    ))
     return suite

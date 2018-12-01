@@ -39,13 +39,13 @@ setup(
     author_email='zope-dev@zope.org',
     description="Pagelet layer setup for Zope 3",
     long_description=(
-        read('README.txt')
+        read('README.rst')
         + '\n\n' +
         '.. contents::'
         + '\n\n' +
-        read('src', 'z3c', 'layer', 'pagelet', 'README.txt')
+        read('src', 'z3c', 'layer', 'pagelet', 'README.rst')
         + '\n\n' +
-        read('CHANGES.txt')
+        read('CHANGES.rst')
     ),
     keywords="z3c pagelet layer zope zope3",
     classifiers=[
