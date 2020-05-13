@@ -1,13 +1,22 @@
-*.egg
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python-without-pypy
+*.egg-info/
+*.profraw
 *.pyc
-__pycache__
-src/*.egg-info
-
+*.pyo
 .coverage
 .installed.cfg
-.tox
-bin
-develop-eggs
-docs
-parts
-htmlcov
+.mr.developer.cfg
+.tox/
+__pycache__/
+bin/
+build/
+coverage.xml
+develop-eggs/
+dist/
+eggs/
+htmlcov/
+lib/
+lib64
+parts/
+pyvenv.cfg
