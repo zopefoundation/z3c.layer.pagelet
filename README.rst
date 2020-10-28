@@ -6,8 +6,8 @@
    :target: https://pypi.org/project/z3c.layer.pagelet/
    :alt: Supported Python versions
 
-.. image:: https://travis-ci.org/zopefoundation/z3c.layer.pagelet.svg?branch=master
-   :target: https://travis-ci.org/zopefoundation/z3c.layer.pagelet
+.. image:: https://travis-ci.com/zopefoundation/z3c.layer.pagelet.svg?branch=master
+   :target: https://travis-ci.com/zopefoundation/z3c.layer.pagelet
    :alt: Build Status
 
 .. image:: https://coveralls.io/repos/github/zopefoundation/z3c.layer.pagelet/badge.svg
