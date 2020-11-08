@@ -5,9 +5,9 @@ CHANGES
 2.2 (unreleased)
 ----------------
 
-- Add support for 3.8.
+- Add support for 3.8 and 3.9.
 
-- Drop support for 3.4.
+- Drop support for 3.4 and 3.5.
 
 
 2.1 (2018-12-01)
