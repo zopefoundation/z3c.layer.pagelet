@@ -38,7 +38,7 @@ setup(
     name='z3c.layer.pagelet',
     version='3.0.dev0',
     author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.org',
+    author_email='zope-dev@zope.dev',
     description="Pagelet layer setup for Zope 3",
     long_description=(
         read('README.rst')
@@ -68,10 +68,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope :: 3',
     ],
-    python_requires=','.join([
-        '>=3.7',
-    ]),
-    url='http://pypi.python.org/pypi/z3c.layer.pagelet',
+    python_requires='>=3.7',
+    url='https://github.com/zopefoundation/z3c.layer.pagelet',
     license='ZPL 2.1',
     packages=find_packages('src'),
     include_package_data=True,

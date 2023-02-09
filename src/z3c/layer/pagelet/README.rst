@@ -131,7 +131,7 @@ And check the user error page which is a view registred for
   >>> manager.get(skinURL + '/@@usererror.html')
   Traceback (most recent call last):
   ...
-  UserError: simply user error
+  zope.exceptions.interfaces.UserError: simply user error
 
   >>> res = err_manager.get(skinURL + '/@@usererror.html')
   >>> print(res.html)
