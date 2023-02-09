@@ -13,12 +13,13 @@
 ##############################################################################
 """Browser Code.
 """
-from z3c.layer.pagelet import interfaces
 import z3c.pagelet.browser
 import z3c.template.interfaces
 import zope.authentication.interfaces
 import zope.component
 import zope.interface
+
+from z3c.layer.pagelet import interfaces
 
 
 def inDevMode():

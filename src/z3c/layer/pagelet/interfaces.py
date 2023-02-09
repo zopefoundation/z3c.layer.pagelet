@@ -13,8 +13,8 @@
 ##############################################################################
 """Pagelet Layer Interfaces
 """
-import zope.interface
 import zope.browser.interfaces
+import zope.interface
 
 
 class IUnauthorizedPagelet(zope.interface.Interface):

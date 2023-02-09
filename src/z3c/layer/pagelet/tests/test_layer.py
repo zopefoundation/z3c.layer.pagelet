@@ -16,8 +16,11 @@
 import doctest
 import re
 import unittest
-import z3c.layer.pagelet.testing
+
 import zope.testing.renormalizing
+
+import z3c.layer.pagelet.testing
+
 
 checker = zope.testing.renormalizing.RENormalizing([
     # Python 3 renamed type to class.

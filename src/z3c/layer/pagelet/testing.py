@@ -13,7 +13,9 @@
 ##############################################################################
 """Testing Support
 """
-import z3c.layer.pagelet.tests
 import zope.app.wsgi.testlayer
+
+import z3c.layer.pagelet.tests
+
 
 TestLayer = zope.app.wsgi.testlayer.BrowserLayer(z3c.layer.pagelet.tests)
