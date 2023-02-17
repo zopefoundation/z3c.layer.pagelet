@@ -36,7 +36,7 @@ TESTS_REQUIRE = [
 
 setup(
     name='z3c.layer.pagelet',
-    version='3.0.dev0',
+    version='3.0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.dev',
     description="Pagelet layer setup for Zope 3",
