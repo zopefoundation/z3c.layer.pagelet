@@ -25,4 +25,4 @@ The view displays the types of the content objects inside the root
 folder. The content objects are security proxied:
 
   >>> print(res.body.decode())
-  [<type 'zope.security._proxy._Proxy'>]
+  [<class 'zope.security._proxy._Proxy'>]

@@ -14,23 +14,15 @@
 """Test Pagelet Layer
 """
 import doctest
-import re
 import unittest
-import z3c.layer.pagelet.testing
-import zope.testing.renormalizing
 
-checker = zope.testing.renormalizing.RENormalizing([
-    # Python 3 renamed type to class.
-    (re.compile('<type'), '<class'),
-])
+import z3c.layer.pagelet.testing
 
 
 def create_suite(*args, **kw):
-    kw['checker'] = checker
     kw['optionflags'] = (
         doctest.NORMALIZE_WHITESPACE
         | doctest.ELLIPSIS
-        | doctest.IGNORE_EXCEPTION_DETAIL
     )
     kw['globs'] = dict(
         getRootFolder=z3c.layer.pagelet.testing.TestLayer.getRootFolder,

@@ -14,6 +14,7 @@
 import os
 import tempfile
 import unittest
+
 import z3c.layer.pagelet.testing
 
 
@@ -33,8 +34,9 @@ class SystemErrorTests(unittest.TestCase):
         appsetup.reset()
 
     def callVUT(self):
-        from z3c.layer.pagelet.browser import SystemErrorPagelet
         from zope.publisher.browser import TestRequest
+
+        from z3c.layer.pagelet.browser import SystemErrorPagelet
         view = SystemErrorPagelet(None, TestRequest())
         view.update()
         return view

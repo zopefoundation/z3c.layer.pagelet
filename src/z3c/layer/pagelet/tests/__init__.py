@@ -14,11 +14,11 @@
 """Test Fixures
 """
 
+from z3c.pagelet import browser
+from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserPage
 from zope.security.interfaces import Unauthorized
-from zope.exceptions.interfaces import UserError
 
-from z3c.pagelet import browser
 import z3c.layer.pagelet
 
 
